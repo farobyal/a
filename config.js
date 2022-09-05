@@ -1,5 +1,5 @@
 let fs = require('fs') 
-let chalk = require('chalk')
+let chalk = require('chalk') 
 
 owner = [
   ['6285643112659'],
