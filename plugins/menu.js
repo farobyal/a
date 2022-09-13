@@ -35,7 +35,7 @@ let tags = {
 }
 const defaultMenu = {
 before: `
-┏━━〔 *Kenzy Bot* 〕━━⬣
+┏━━〔 *Unoshop* 〕━━⬣
 ┃⬡ Hai, %name!
 ┃⬡ Tersisa *%limit Limit*
 ┃⬡ Role *%role*
@@ -160,7 +160,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
-    conn.sendButton(m.chat, text.trim(), 'Created By Unoshop', null, [['Sewa Bot', '.sewa'],['Owner', '.owner']], m)
+    conn.sendButton(m.chat, text.trim(), global.wm, null, [['Sewa Bot', '.sewa'],['Owner', '.owner']], m)
     /*conn.sendHydrated(m.chat, text.trim(), 'Ⓟ premium | Ⓛ limit', null, 'https://aiinne.github.io/', 'Website', '', '', [
       ['Donate', '/donasi'],
       ['Sewa Bot', '/sewa'],
