@@ -91,7 +91,7 @@ const logger = pino({
 }).child({ class: 'baileys'})
 
 const connectionOptions = {
-  version: [2,2230,15],
+  version: [2, 2208, 14],
   printQRInTerminal: true,
   browser: ['RIFQI BOTZ','Safari','1.0.0'],
   auth: state,
@@ -133,7 +133,7 @@ async function connectionUpdate(update) {
   }
   if (global.db.data == null) await loadDatabase()
   console.log(JSON.stringify(update, null, 4))
-  if (update.receivedPendingNotifications) conn.sendMessage(`6285643112659@s.whatsapp.net`, {text: 'Successfully connected by Aine' }) //made by Muhammad Ridwan Reynaldy 
+  if (update.receivedPendingNotifications) conn.sendMessage(`6285643112659@s.whatsapp.net`, {text: 'Successfully connected by RifqiBotz' }) //made by Muhammad Ridwan Reynaldy 
 }
 
 
