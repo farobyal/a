@@ -5,7 +5,9 @@ handler.all = async function (m, { isBlocked }) {
     if (isBlocked) return
     // ketika ada yang invite/kirim link grup di chat pribadi
     if ((m.mtype === 'groupInviteMessage' || m.text.startsWith('Undangan untuk bergabung') || m.text.startsWith('Invitation to join') || m.text.startsWith('Buka tautan ini')) && !m.isBaileys && !m.isGroup) {
-    let teks = `SEWA BOT 1 BULAN 10K
+    let teks = `Sewa bot : 
+1 minggu 3.000
+1 bulan 10.000
 Jika berminat hubungi: @${global.owner[0]} untuk order:)
 `
     this.reply(m.chat, teks, m)

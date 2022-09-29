@@ -5,6 +5,7 @@ let fetch = require('node-fetch')
 let moment = require('moment-timezone')
 let levelling = require('../lib/levelling')
 let tags = {
+  'store': 'Store',
   'rpgabsen': 'Rpg-Absen',
   'rpg': 'Rpg',
   'game': 'Game',
@@ -35,7 +36,7 @@ let tags = {
 }
 const defaultMenu = {
 before: `
-┏━━〔 *Unoshop* 〕━━⬣
+┏━━〔 *Farobyals_bot* 〕━━⬣
 ┃⬡ Hai, %name!
 ┃⬡ Tersisa *%limit Limit*
 ┃⬡ Role *%role*
