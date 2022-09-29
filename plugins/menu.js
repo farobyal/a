@@ -57,7 +57,7 @@ before: `
   body: '┃⬡%cmd %islimit %isPremium',
   footer: '┗━━⬣\n',
   after: `*Made by ♡*
-*Rifqi Botz* | %version
+*kreator by farobyal* | %version
 ${'```%npmdesc```'}
 `,
 }
