@@ -2,9 +2,9 @@ let fs = require('fs')
 let chalk = require('chalk')
 
 owner = [
-  ['6285234852749'],
-  ['6285234852749'],
-  ['6285234852749', 'Unoshop', true]
+  ['6285643112659'],
+  ['6282140365910'],
+  ['6282140365910', 'Farobyal', true]
   // [number, dia creator/owner?, dia developer?]
 ] // Put your number here
 mods = [] // Want some help?
@@ -41,7 +41,7 @@ const spack = fs.readFileSync("lib/exif.json")
 const stickerpack = JSON.parse(spack)
 if (stickerpack.spackname == '') {
   var sticker_name = ''
-  var sticker_author = 'unoshop'
+  var sticker_author = 'Farobyals_bot'
 } else {
   var sticker_name = stickerpack.spackname
   var sticker_author = stickerpack.sauthor
@@ -58,7 +58,7 @@ fs.watchFile(file_exif, () => {
 // Sticker WM
 packname = sticker_name
 author = sticker_author
-wm = 'unoshop'
+wm = 'Farobyals_bot'
 
 Intervalmsg = 1800 //detik
 
