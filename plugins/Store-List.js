@@ -22,7 +22,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 	}
 	let name = await conn.getName(m.chat) || ''
 	let msg = {
-		buttonText: 'LIST STORE',
+		buttonText: 'LIST BOT',
 		text: '\nberikut ini adalah daftar store yg ada di grup ini.',
 		footer: wm,
 		sections: [{
