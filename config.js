@@ -1,6 +1,9 @@
 let fs = require('fs') 
 let chalk = require('chalk')
 
+global.namabot = `Farobyals_bot`
+global.namaowner = `Farobyal`
+
 owner = [
   ['6285643112659'],
   ['6282140365910'],
