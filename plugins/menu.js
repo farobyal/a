@@ -3,6 +3,8 @@ let fs = require('fs')
 let path = require('path')
 let fetch = require('node-fetch')
 let moment = require('moment-timezone')
+const platform = require('process')
+const os = require('os')
 let levelling = require('../lib/levelling')
 let tags = {
   'store': 'Store',
@@ -33,40 +35,66 @@ let tags = {
   'info': 'Info',
   'audio': 'Audio',
   'maker': 'Maker',
+  'nocategory': 'Nocategory',
 }
 const defaultMenu = {
 before: `
-┏━━〔 *Farobyals_bot* 〕━━⬣
-┃⬡ Hai, %name!
-┃⬡ Tersisa *%limit Limit*
-┃⬡ Role *%role*
-┃⬡ Level *%level (%exp / %maxexp)*
-┃⬡ [%xp4levelup]
-┃⬡ %totalexp XP secara Total
-┃
-┃⬡ Tanggal: *%week %weton, %date*
-┃⬡ Tanggal Islam: *%dateIslamic*
-┃⬡ Waktu: *%time*
-┃
-┃⬡ Uptime: *%uptime (%muptime)*
-┃⬡ Database: %rtotalreg dari %totalreg
-┃⬡ Memory Used : *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB*
-┗━━━━━━⬣
-%readmore`.trimStart(),
-  header: '┏━━〔 %category 〕━⬣',
-  body: '┃⬡%cmd %islimit %isPremium',
-  footer: '┗━━⬣\n',
-  after: `*Made by ♡*
-*kreator by farobyal* | %version
+╭─────═[ INFO USER ]═─────⋆
+│╭───────────────···
+┴│☂︎ *Name:* %name
+⬡│☂︎ *Tag:* %tag
+⬡│☂︎ *Premium:* %prems
+⬡│☂︎ *Limit:* %limit
+⬡│☂︎ *Money:* %money
+⬡│☂︎ *Role:* %role
+⬡│☂︎ *Level:* %level [ %xp4levelup Xp For Levelup]
+⬡│☂︎ *Xp:* %exp / %maxexp
+┬│☂︎ *Total Xp:* %totalexp
+│╰────────────────···
+┠─────═[ TODAY ]═─────⋆
+│╭────────────────···
+┴│    *${ucapan()} %name!*
+⬡│☂︎ *Tanggal:* %week %weton
+⬡│☂︎ *Date:* %date
+⬡│☂︎ *Tanggal Islam:* %dateIslamic
+┬│☂︎ *Waktu:* %time
+│╰────────────────···
+┠─────═[ INFO BOT ]═─────⋆
+│╭────────────────···
+┴│☂︎ *Nama Bot:* %me
+⬡│☂︎ *Prefix:* [ *%_p* ]
+⬡│☂︎ *Baileys:* Multi Device
+⬡│☂︎ *Battery:* ${conn.battery != undefined ? `${conn.battery.value}% ${conn.battery.live ? '🔌 pengisian' : ''}` : 'tidak diketahui'}
+⬡│☂︎ *Platform:* %platform
+⬡│☂︎ *Type:* Node.Js
+⬡│☂︎ *Uptime:* %muptime
+┬│☂︎ *Database:* %rtotalreg dari %totalreg
+│╰────────────────···
+╰──────────═┅═──────────
+
+⃝▣──「 *INFO CMD* 」───⬣
+│ *Ⓟ* = Premium
+│ *Ⓛ* = Limit
+▣────────────⬣
+%readmore
+`.trimStart(),
+  header: '⃝▣──「 %category 」───⬣',
+  body: '│○ %cmd %isPremium %islimit',
+  footer: '▣───────────⬣\n',
+  after: `*%namaowner* | %version
 ${'```%npmdesc```'}
 `,
 }
 let handler = async (m, { conn, usedPrefix: _p }) => {
   try {
     let package = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch(_ => '{}'))
-    let { exp, limit, level, role } = global.db.data.users[m.sender]
+    let { age, exp, limit, level, role, registered, money} = global.db.data.users[m.sender]
     let { min, xp, max } = levelling.xpRange(level, global.multiplier)
     let name = await conn.getName(m.sender)
+    let premium = global.db.data.users[m.sender].premiumTime
+    let prems = `${premium > 0 ? 'Premium': 'Free'}`
+    let platform = os.platform()
+    let tag = `@${m.sender.split('@')[0]}`
     let d = new Date(new Date + 3600000)
     let locale = 'id'
     // d.getTimeZoneOffset()
@@ -120,6 +148,25 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
       if (plugin && 'tags' in plugin)
         for (let tag of plugin.tags)
           if (!(tag in tags) && tag) tags[tag] = tag
+// FAKE
+let fgif = {
+    key: {
+    remoteJid: 'status@broadcast',
+    participant : '0@s.whatsapp.net'},
+    message: { 
+                  "videoMessage": { 
+                  "title": wm,
+                  "h": `Nekohime`,
+                  'duration': '99999999', 
+                  'gifPlayback': 'true', 
+                  'caption': date,
+                  'jpegThumbnail': fs.readFileSync('./thumbnail.jpg')
+                         }
+                        }
+                     }
+  let fkon = { key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) }, message: { contactMessage: { displayName: `${name}`, vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${name}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`}}}
+  const pp = await conn.profilePictureUrl(conn.user.jid).catch(_ => './src/avatar_contact.png')
+   
     conn.menu = conn.menu ? conn.menu : {}
     let before = conn.menu.before || defaultMenu.before
     let header = conn.menu.header || defaultMenu.header
@@ -157,11 +204,19 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
       totalexp: exp,
       xp4levelup: max - exp,
       github: package.homepage ? package.homepage.url || package.homepage : '[unknown github url]',
-      level, limit, name, weton, week, date, dateIslamic, wib, wit, wita, time, totalreg, rtotalreg, role,
-      readmore: readMore
+      level, limit, name, weton, week, date, dateIslamic, wib, wit, wita, time, totalreg, rtotalreg, role, _p, money, prems, platform, tag,
+      readmore: readMore,
+      namabot: namabot,
+      namaowner: namaowner,
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
-    conn.sendButton(m.chat, text.trim(), global.wm, null, [['Sewa Bot', '.sewa'],['Owner', '.owner']], m)
+     conn.sendButton(m.chat, `${ucapan()}﹗`, text.trim(), `${timeimg()}`, [
+      ['⬡ 𝚜𝚙𝚎𝚎𝚍𝚝𝚎𝚜𝚝', `${_p}ping`],
+      ['⬡ 𝚜𝚎𝚠𝚊 𝚋𝚘𝚝', `${_p}sewa`],
+      ['⬡ 𝚘𝚠𝚗𝚎𝚛', `${_p}owner`],
+    ], m, {asLocation: true})
+   // conn.send3ButtonImg(m.chat, thumb, text, wm, '⬡ 𝚜𝚙𝚎𝚎𝚍𝚝𝚎𝚜𝚝', '.speed', '⬡ 𝚜𝚎𝚠𝚊 𝚋𝚘𝚝', '.sewa', '⬡ 𝚘𝚠𝚗𝚎𝚛', '.owner', fgif, /**{ gifPlayback: true, contextInfo: { externalAdReply: {title: `Kenzy Bot`, body: date, sourceUrl: `https://wa.me/6285643112659`, thumbnail: fs.readFileSync('./thumbnail.jpg') }}}**/)
+   // conn.sendButton(m.chat, text.trim(), global.wm, null, [['Sewa Bot', '.sewa'],['Owner', '.owner']], m)
     /*conn.sendHydrated(m.chat, text.trim(), 'Ⓟ premium | Ⓛ limit', null, 'https://aiinne.github.io/', 'Website', '', '', [
       ['Donate', '/donasi'],
       ['Sewa Bot', '/sewa'],
@@ -242,4 +297,31 @@ function ucapan() {
           ucapanWaktu = 'Selamat Malam!'
         }	
         return ucapanWaktu
+}
+function timeimg() {
+    let imgloc = ''
+  const time = moment.tz('Asia/Jakarta').format('HH')
+  imgloc = ('./media/elaina8.png')
+  if (time >= 0) {
+    imgloc = ('./media/elaina.png')
+  }
+  if (time >= 4) {
+    imgloc = ('./media/elaina2.png')
+  }
+  if (time >= 8) {
+    imgloc = ('./media/elaina3.png')
+  }
+  if (time >= 12) {
+    imgloc = ('./media/elaina4.png')
+  }
+  if (time >= 16) {
+    imgloc = ('./media/elaina5.png')
+  }
+  if (time >= 20) {
+    imgloc = ('./media/elaina6.png')
+  }
+  if (time >= 24) {
+    imgloc = ('./media/elaina7.png')
+  }
+  return imgloc
 }
